@@ -11,4 +11,5 @@ DEFAULT_PROMPT = (
 
 
 def get_prompt():
+    #
     return QuestionAnswerPrompt(DEFAULT_PROMPT)
