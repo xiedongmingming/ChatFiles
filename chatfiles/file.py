@@ -15,13 +15,13 @@ compress_file_dir = Path(compress_path)
 
 ##############################################################################################
 # 获取指定文件对应的INDEX文件名
-def get_index_name_from_file_path(file_name):  # file_name：./documents/网络.txt
+def get_index_name_from_file_path(file_name):  # file_name：./documents/xxx.txt
     #
-    file_with_type = str(Path(file_name).relative_to(index_file_dir).name)  # 网络.txt
+    file_with_type = str(Path(file_name).relative_to(index_file_dir).name)  # xxx.txt
 
     file_index_name = file_with_type.split('.')[0].replace(" ", "")  # 忽略后缀名的文件名
 
-    return file_index_name  # 网络
+    return file_index_name  # xxx
 
 
 # 获取指定文件对应的INDEX文件名
@@ -45,9 +45,9 @@ def get_name_with_json_extension(index_name):
 
 
 ##############################################################################################
-def get_index_filepath(index_name):  # 网络.json
+def get_index_filepath(index_name):  # xxx
     #
-    return index_file_dir / index_name  # ./documents/网络.json
+    return index_file_dir / index_name  # ./documents/xxx
 
 
 def get_index_path():  # './documents'
@@ -55,14 +55,16 @@ def get_index_path():  # './documents'
     return index_path
 
 
-def check_index_file_exists(index_name):
+def check_index_file_exists(index_name):  # xxx
     #
-    return get_index_filepath(index_name).is_file()
+    # return get_index_filepath(index_name).is_file()
+
+    return get_index_filepath(index_name).is_dir()
 
 
 def check_index_exists(index_name):  # 网络
     #
-    index_name = get_name_with_json_extension(index_name)  # 获取JSON结尾的名称：网络.json
+    # index_name = get_name_with_json_extension(index_name)  # 获取JSON结尾的名称：网络.json
 
     return check_index_file_exists(index_name)  # 通过检查是否是文件来确定
 

@@ -1,18 +1,24 @@
 import uuid
-from file import (check_index_file_exists,
-                  get_index_name_from_file_path, get_index_name_from_compress_filepath)
+
+from file import (
+    check_index_file_exists,
+    get_index_name_from_file_path,
+    get_index_name_from_compress_filepath
+)
+
 from llm import get_index_by_index_name, create_index, create_graph, get_graph_by_graph_name
+
 from prompt import get_prompt
 
 
-def check_llama_index_exists(file_name):  # ./documents/网络.txt
+def check_llama_index_exists(file_name):  # ./documents/xxx.txt
     #
-    index_name = get_index_name_from_file_path(file_name)
+    index_name = get_index_name_from_file_path(file_name)  # xxx
 
     return check_index_file_exists(index_name)
 
 
-def create_llama_index(filepath):
+def create_llama_index(filepath):  # ./documents/xxx.txt
     #
     index_name = get_index_name_from_file_path(filepath)
 
@@ -44,7 +50,9 @@ def get_answer_from_index(text, index_name):
     #
     index = get_index_by_index_name(index_name)
 
-    return index.query(text, text_qa_template=get_prompt())
+    # return index.query(text, text_qa_template=get_prompt())
+
+    return index.as_query_engine(text_qa_template=get_prompt()).query(text)
 
 
 def get_answer_from_graph(text, graph_name):

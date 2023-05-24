@@ -21,7 +21,8 @@ from file import (
     index_path,
     compress_path,
     decompress_files_and_get_filepaths,
-    clean_files, check_index_exists
+    clean_files,
+    check_index_exists
 )
 
 app = Flask(__name__)
@@ -40,15 +41,17 @@ def upload_file():
 
         uploaded_file = request.files["file"]
 
-        filename = uploaded_file.filename  # 网络.txt
+        filename = uploaded_file.filename  # xxx.txt
 
         if check_file_is_compressed(filename) is False:  # 非压缩文件处理
 
-            filepath = os.path.join(get_index_path(), os.path.basename(filename))  # ./documents/网络.txt
+            filepath = os.path.join(get_index_path(), os.path.basename(filename))  # ./documents/xxx.txt
 
             if check_llama_index_exists(filepath) is True:  # 已经存在
                 #
-                return get_index_name_without_json_extension(get_index_name_from_file_path(filepath))  # 返回路径名称
+                #  return get_index_name_without_json_extension(get_index_name_from_file_path(filepath))  # 返回路径名称
+                
+                return get_index_name_from_file_path(filepath)  # 返回路径名称
 
             uploaded_file.save(filepath)  # 保存到指定文件路径下
 
