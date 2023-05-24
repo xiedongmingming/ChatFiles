@@ -1,6 +1,7 @@
 import json
 
 from langchain.llms.base import LLM
+from langchain.llms.utils import enforce_stop_tokens
 
 from typing import List, Dict, Optional
 
@@ -62,7 +63,7 @@ class ChatGLM(LLM):
 
     top_p = 0.9
 
-    # history = []
+    history = []
 
     tokenizer: object = None
 
@@ -84,23 +85,23 @@ class ChatGLM(LLM):
         response, _ = self.model.chat(
             self.tokenizer,
             prompt,
-            # history=history[-self.history_len:] if self.history_len > 0 else [],
-            [],
+            history=self.history[-self.history_len:] if self.history_len > 0 else [],
             max_length=self.max_token,
             temperature=self.temperature,
             top_p=self.top_p,
         )
 
-        torch_gc()
+        if stop is not None:
+            #
+            response = enforce_stop_tokens(response, stop)
 
-        # history += [[prompt, response]]
-
-        # yield response, history
+        self.history += [[prompt, response]]
 
         torch_gc()
 
         return response
 
+    # 这个接口并未实现标准接口--使用的时候是直接调用的
     # def _call(
     #         self,
     #         prompt: str,

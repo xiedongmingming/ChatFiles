@@ -9,6 +9,7 @@ from transformers import pipeline
 
 from typing import Optional, List, Mapping, Any
 
+##############################################################################
 # define prompt helper
 
 max_input_size = 2048  # set maximum input size
