@@ -20,7 +20,7 @@ def check_llama_index_exists(file_name):  # ./documents/xxx.txt
 
 def create_llama_index(filepath):  # ./documents/xxx.txt
     #
-    index_name = get_index_name_from_file_path(filepath)
+    index_name = get_index_name_from_file_path(filepath)  # xxx
 
     index = create_index(filepath, index_name)
 

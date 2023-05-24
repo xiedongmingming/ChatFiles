@@ -4,10 +4,10 @@ INDEX相关：
 
 - index：索引对象
 - index_name：xxx
+- graph_name：uuid
 - index_path：./documents
-- index_filepath：./documents/xxx  
+- index_filepath：./documents/xxx
 - filepath：./documents/xxx.txt
-
 
 # 自定义EMBEDDING
 

@@ -67,8 +67,11 @@ def create_index(filepath, index_name):
     # storage_context = StorageContext.from_defaults(
     #     vector_store=DeepLakeVectorStore(dataset_path="<dataset_path>")
     # )
-    index = GPTVectorStoreIndex.from_documents(documents, service_context=service_context,
-                                               storage_context=storage_context)
+    index = GPTVectorStoreIndex.from_documents(
+        documents,
+        service_context=service_context,
+        storage_context=storage_context
+    )
 
     storage_context.persist(get_index_filepath(index_name))
 
@@ -96,9 +99,9 @@ def get_index_by_index_name(index_name):  # xxx
     return index
 
 
-def create_graph(index_sets, graph_name):  # 网络
+def create_graph(index_sets, graph_name):
     #
-    graph_name = get_name_with_json_extension(graph_name)
+    # graph_name = get_name_with_json_extension(graph_name)
 
     graph = ComposableGraph.from_indices(
         GPTListIndex,
@@ -112,11 +115,11 @@ def create_graph(index_sets, graph_name):  # 网络
     return graph
 
 
-def get_graph_by_graph_name(graph_name):  # 网络
+def get_graph_by_graph_name(graph_name):
     #
-    graph_name = get_name_with_json_extension(graph_name)  # 网络.json
+    # graph_name = get_name_with_json_extension(graph_name)  # uuid.json
 
-    graph_path = get_index_filepath(graph_name)  # ./documents/网络.json
+    graph_path = get_index_filepath(graph_name)  # ./documents/uuid
 
     graph = ComposableGraph.load_from_disk(graph_path, service_context=service_context)
 

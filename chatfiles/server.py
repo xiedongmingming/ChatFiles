@@ -50,8 +50,8 @@ def upload_file():
             if check_llama_index_exists(filepath) is True:  # 已经存在
                 #
                 #  return get_index_name_without_json_extension(get_index_name_from_file_path(filepath))  # 返回路径名称
-                
-                return get_index_name_from_file_path(filepath)  # 返回路径名称
+
+                return get_index_name_from_file_path(filepath)  # xxx
 
             uploaded_file.save(filepath)  # 保存到指定文件路径下
 
@@ -61,7 +61,7 @@ def upload_file():
 
             return make_response(
                 {
-                    "indexName": get_index_name_without_json_extension(index_name),
+                    "indexName": index_name,  # get_index_name_without_json_extension(index_name)
                     "indexType": "index"
                 }
             ), 200
@@ -78,7 +78,7 @@ def upload_file():
 
             return make_response(
                 {
-                    "indexName": get_index_name_without_json_extension(graph_name),
+                    "indexName": graph_name,  # get_index_name_without_json_extension(graph_name),
                     "indexType": "graph"
                 }
             ), 200
@@ -101,7 +101,7 @@ def query_from_llama_index():
 
         message = request.args.get('message')  # 都有什么价格范围的？
 
-        index_name = request.args.get('indexName')  # 网络
+        index_name = request.args.get('indexName')  #
         index_type = request.args.get('indexType')  # index/graph
 
         if check_index_exists(index_name) is False:
