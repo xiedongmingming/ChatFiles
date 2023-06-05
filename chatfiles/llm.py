@@ -16,7 +16,8 @@ from llama_index import (
     SimpleDirectoryReader,
     LangchainEmbedding,
     StorageContext,
-    load_index_from_storage
+    load_index_from_storage,
+    load_graph_from_storage,
 )
 
 from file import check_index_file_exists, get_index_filepath, get_name_with_json_extension
@@ -71,6 +72,7 @@ def create_index(filepath, index_name):
     # storage_context = StorageContext.from_defaults(
     #     vector_store=DeepLakeVectorStore(dataset_path="<dataset_path>")
     # )
+
     index = GPTVectorStoreIndex.from_documents(
         documents,
         service_context=service_context,
@@ -107,14 +109,22 @@ def create_graph(index_sets, graph_name):
     #
     # graph_name = get_name_with_json_extension(graph_name)
 
+    storage_context = StorageContext.from_defaults()
+
     graph = ComposableGraph.from_indices(
         GPTListIndex,
         [index for _, index in index_sets.items()],
         index_summaries=[f"This index contains {indexName}" for indexName, _ in index_sets.items()],
-        service_context=service_context
+        service_context=service_context,
+        storage_context=storage_context,
     )
 
-    graph.save_to_disk(get_index_filepath(graph_name))
+    # storage_context.persist(get_index_filepath(graph_name))
+
+    graph.root_index.set_index_id(graph_name)
+    graph.root_index.storage_context.persist(persist_dir=get_index_filepath(graph_name))
+
+    # graph.save_to_disk(get_index_filepath(graph_name))
 
     return graph
 
@@ -125,7 +135,15 @@ def get_graph_by_graph_name(graph_name):
 
     graph_path = get_index_filepath(graph_name)  # ./documents/uuid
 
-    graph = ComposableGraph.load_from_disk(graph_path, service_context=service_context)
+    # graph = ComposableGraph.load_from_disk(graph_path, service_context=service_context)
+
+    storage_context = StorageContext.from_defaults(persist_dir=graph_path)
+
+    graph = load_graph_from_storage(
+        service_context=service_context,
+        storage_context=storage_context,
+        root_id=graph_name,
+    )
 
     return graph
 #########################################################################################

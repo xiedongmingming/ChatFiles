@@ -59,4 +59,4 @@ def get_answer_from_graph(text, graph_name):
     #
     graph = get_graph_by_graph_name(graph_name)
 
-    return graph.query(text)
+    return graph.as_query_engine().query(text)
